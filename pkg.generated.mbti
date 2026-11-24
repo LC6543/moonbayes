@@ -17,6 +17,7 @@ pub fn BayesianNetwork::descendants_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
 pub fn BayesianNetwork::evidence_likelihood(Self, Array[(String, Int32)]) -> Result[EvidenceLikelihood, InferenceError]
 pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
+pub fn BayesianNetwork::map(Self, Array[String], Array[(String, Int32)]) -> Result[MapAssignment, InferenceError]
 pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
 pub fn BayesianNetwork::node_count(Self) -> Int32
@@ -86,6 +87,13 @@ pub enum InferenceError {
   FactorFailure(FactorError)
 }
 pub fn InferenceError::message(Self) -> String
+
+pub struct MapAssignment {
+  // private fields
+}
+pub fn MapAssignment::assignment(Self) -> Array[(String, Int32)]
+pub fn MapAssignment::log_probability(Self) -> Double
+pub fn MapAssignment::probability(Self) -> Double
 
 pub enum NetworkError {
   EmptyNetwork

@@ -18,6 +18,7 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - ancestor, descendant and d-separation structure queries
 - evidence likelihood with scaled log-probability accumulation
 - deterministic likelihood-weighting posterior sampling
+- MAP and MPE assignments from exact posterior maximization
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
@@ -71,6 +72,7 @@ let sampled = network.sample_posterior(
   [("umbrella", 1)],
   sampling_config,
 ).unwrap()
+let map_rain = network.map(["rain"], [("umbrella", 1)]).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,
