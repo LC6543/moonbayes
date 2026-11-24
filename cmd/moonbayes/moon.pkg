@@ -1,0 +1,9 @@
+import {
+  "LC6543/moonbayes" @bayes,
+  "moonbitlang/core/env",
+  "moonbitlang/core/string",
+  "moonbitlang/x/fs",
+  "moonbitlang/x/sys",
+}
+
+pkgtype(kind: "executable")

@@ -37,6 +37,18 @@ moon test --target all --deny-warn
 moon run examples/basic
 ```
 
+## Command Line
+
+Build and run the native command-line tool with:
+
+```sh
+moon run cmd/moonbayes --target wasm-gc -- --help
+moon run cmd/moonbayes --target wasm-gc -- validate examples/rain-umbrella.json
+moon run cmd/moonbayes --target wasm-gc -- query examples/rain-umbrella.json --target rain --evidence umbrella=1
+moon run cmd/moonbayes --target wasm-gc -- likelihood examples/rain-umbrella.json --evidence umbrella=1
+moon run cmd/moonbayes --target wasm-gc -- map examples/rain-umbrella.json --target rain --evidence umbrella=1
+```
+
 ## Example
 
 ```moonbit

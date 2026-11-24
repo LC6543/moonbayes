@@ -1,0 +1,52 @@
+{
+  "format": "moonbayes",
+  "version": 1,
+  "nodes": [
+    {
+      "variable": {
+        "name": "rain",
+        "domain": 2
+      },
+      "parents": [],
+      "distribution": {
+        "variables": [
+          {
+            "name": "rain",
+            "domain": 2
+          }
+        ],
+        "values": [
+          0.8,
+          0.2
+        ]
+      }
+    },
+    {
+      "variable": {
+        "name": "umbrella",
+        "domain": 2
+      },
+      "parents": [
+        "rain"
+      ],
+      "distribution": {
+        "variables": [
+          {
+            "name": "umbrella",
+            "domain": 2
+          },
+          {
+            "name": "rain",
+            "domain": 2
+          }
+        ],
+        "values": [
+          0.9,
+          0.2,
+          0.1,
+          0.8
+        ]
+      }
+    }
+  ]
+}

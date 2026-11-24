@@ -18,3 +18,7 @@ keywords = [
 preferred_target = "wasm"
 
 description = "Discrete Bayesian-network inference primitives for MoonBit."
+
+import {
+  "moonbitlang/x@0.5.5",
+}

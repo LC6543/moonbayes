@@ -3,7 +3,7 @@
 - 项目名称：moonbayes，MoonBit 离散贝叶斯网络推断内核
 - 仓库：https://github.com/LC6543/moonbayes
 - 方向：新生态项目建设，原创 MoonBit 实现，不维护或改名既有项目
-- 当前基础：已完成网络校验、推断、结构查询、MAP 与 JSON 互操作
+- 当前基础：已完成网络校验、推断、JSON 互操作与命令行工具
 
 ## 项目简介
 
