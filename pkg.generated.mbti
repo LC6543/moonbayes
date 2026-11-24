@@ -18,6 +18,7 @@ pub fn BayesianNetwork::ancestors_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::descendants_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
 pub fn BayesianNetwork::evidence_likelihood(Self, Array[(String, Int32)]) -> Result[EvidenceLikelihood, InferenceError]
+pub fn BayesianNetwork::fit_complete_data(Self, Array[Array[(String, Int32)]], Double) -> Result[Self, FitFailure]
 pub fn BayesianNetwork::from_json(Json) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::from_json_string(String) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
@@ -75,6 +76,19 @@ pub enum FactorError {
 pub fn FactorError::equal(Self, Self) -> Bool
 pub fn FactorError::message(Self) -> String
 pub fn FactorError::not_equal(Self, Self) -> Bool
+
+pub enum FitFailure {
+  EmptyData
+  InvalidSmoothing(Double)
+  UnknownVariable(String)
+  DuplicateObservation(String)
+  MissingObservation(String)
+  ObservationOutOfRange(String, Int32, Int32)
+  UnobservedParentConfiguration(String)
+  FactorFailure(FactorError)
+  NetworkFailure(NetworkError)
+}
+pub fn FitFailure::message(Self) -> String
 
 pub enum GraphQueryError {
   EmptySet
