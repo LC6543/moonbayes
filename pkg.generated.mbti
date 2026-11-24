@@ -28,6 +28,7 @@ pub fn BayesianNetwork::node_count(Self) -> Int32
 pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::query(Self, Array[String], Array[(String, Int32)]) -> Result[Factor, InferenceError]
 pub fn BayesianNetwork::sample_posterior(Self, Array[String], Array[(String, Int32)], SamplingConfig) -> Result[WeightedPosterior, SamplingFailure]
+pub fn BayesianNetwork::sample_prior(Self, SamplingConfig) -> Result[SampleBatch, SamplingFailure]
 pub fn BayesianNetwork::to_json(Self) -> Json
 pub fn BayesianNetwork::to_json_string(Self) -> String
 pub fn BayesianNetwork::topological_order(Self) -> Array[String]
@@ -129,6 +130,12 @@ pub fn NetworkNode::new(Variable, Array[String], Factor) -> Result[Self, Network
 pub fn NetworkNode::parents(Self) -> Array[String]
 pub fn NetworkNode::variable(Self) -> Variable
 pub fn NetworkNode::variable_name(Self) -> String
+
+pub struct SampleBatch {
+  // private fields
+}
+pub fn SampleBatch::sample(Self, Int32) -> Array[(String, Int32)]?
+pub fn SampleBatch::sample_count(Self) -> Int32
 
 pub struct SamplingConfig {
   // private fields

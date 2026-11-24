@@ -18,13 +18,13 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - ancestor, descendant and d-separation structure queries
 - evidence likelihood with scaled log-probability accumulation
 - deterministic likelihood-weighting posterior sampling
+- deterministic ancestral sampling of complete joint assignments
 - MAP and MPE assignments from exact posterior maximization
 - versioned JSON model import and export with validation
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
-Sampling and approximate inference are planned next and intentionally not
-stubbed.
+Parameter learning, model editing and richer diagnostics are planned next.
 
 ## Development
 
