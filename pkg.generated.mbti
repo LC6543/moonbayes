@@ -6,6 +6,8 @@ pub const MAX_FACTOR_VALUES : Int32 = 16777216
 
 pub const MAX_SAMPLES : Int32 = 1000000
 
+pub const MODEL_FORMAT_VERSION : Int32 = 1
+
 // Errors
 
 // Types and methods
@@ -16,6 +18,8 @@ pub fn BayesianNetwork::ancestors_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::descendants_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
 pub fn BayesianNetwork::evidence_likelihood(Self, Array[(String, Int32)]) -> Result[EvidenceLikelihood, InferenceError]
+pub fn BayesianNetwork::from_json(Json) -> Result[Self, NetworkError]
+pub fn BayesianNetwork::from_json_string(String) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
 pub fn BayesianNetwork::map(Self, Array[String], Array[(String, Int32)]) -> Result[MapAssignment, InferenceError]
 pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
@@ -24,6 +28,8 @@ pub fn BayesianNetwork::node_count(Self) -> Int32
 pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::query(Self, Array[String], Array[(String, Int32)]) -> Result[Factor, InferenceError]
 pub fn BayesianNetwork::sample_posterior(Self, Array[String], Array[(String, Int32)], SamplingConfig) -> Result[WeightedPosterior, SamplingFailure]
+pub fn BayesianNetwork::to_json(Self) -> Json
+pub fn BayesianNetwork::to_json_string(Self) -> String
 pub fn BayesianNetwork::topological_order(Self) -> Array[String]
 
 pub struct EvidenceLikelihood {
@@ -107,6 +113,11 @@ pub enum NetworkError {
   DistributionParentDomainMismatch(String, String, Int32, Int32)
   UnnormalizedConditional(String, Double)
   CycleDetected
+  InvalidJson(String)
+  InvalidModelFormat
+  UnsupportedFormatVersion(Int32)
+  InvalidField(String)
+  FactorFailure(FactorError)
 }
 pub fn NetworkError::message(Self) -> String
 

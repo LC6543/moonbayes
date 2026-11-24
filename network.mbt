@@ -12,6 +12,11 @@ pub enum NetworkError {
   DistributionParentDomainMismatch(String, String, Int32, Int32)
   UnnormalizedConditional(String, Double)
   CycleDetected
+  InvalidJson(String)
+  InvalidModelFormat
+  UnsupportedFormatVersion(Int32)
+  InvalidField(String)
+  FactorFailure(FactorError)
 }
 
 ///|
@@ -49,6 +54,12 @@ pub fn NetworkError::message(self : NetworkError) -> String {
       mass.to_string() +
       " for one parent assignment"
     CycleDetected => "Bayesian network contains a directed cycle"
+    InvalidJson(message) => "invalid JSON: " + message
+    InvalidModelFormat => "JSON document is not a moonbayes model"
+    UnsupportedFormatVersion(version) =>
+      "unsupported moonbayes format version: " + version.to_string()
+    InvalidField(path) => "invalid or missing model field: " + path
+    FactorFailure(error) => error.message()
   }
 }
 

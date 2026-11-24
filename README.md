@@ -19,6 +19,7 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - evidence likelihood with scaled log-probability accumulation
 - deterministic likelihood-weighting posterior sampling
 - MAP and MPE assignments from exact posterior maximization
+- versioned JSON model import and export with validation
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
@@ -73,6 +74,8 @@ let sampled = network.sample_posterior(
   sampling_config,
 ).unwrap()
 let map_rain = network.map(["rain"], [("umbrella", 1)]).unwrap()
+let encoded = network.to_json_string()
+let restored = @moonbayes.BayesianNetwork::from_json_string(encoded).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

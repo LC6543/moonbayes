@@ -12,5 +12,6 @@
 - add scaled evidence likelihood with underflow-safe log probabilities
 - add deterministic likelihood-weighting sampling with effective sample size
 - add MAP/MPE assignments through exact posterior maximization
+- add versioned JSON model import and export
 - add structured errors and table-size bounds
 - add focused factor tests and a runnable example

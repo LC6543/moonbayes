@@ -23,6 +23,9 @@ fn main {
     .sample_posterior(["rain"], [("umbrella", 1)], sampling_config)
     .unwrap()
   let map_rain = network.map(["rain"], [("umbrella", 1)]).unwrap()
+  let restored = @moonbayes.BayesianNetwork::from_json_string(
+    network.to_json_string(),
+  ).unwrap()
   let observed_rain = joint.restrict([("rain", 0)]).unwrap()
   let posterior = observed_rain.normalize().unwrap()
   println(
@@ -57,4 +60,5 @@ fn main {
     sampled_rain.estimate().value_at([1]).unwrap().to_string(),
   )
   println("MAP rain | umbrella = " + map_rain.assignment()[0].1.to_string())
+  println("JSON round-trip nodes = " + restored.node_count().to_string())
 }
