@@ -38,4 +38,8 @@ fn main {
     "Inferred P(rain = true | umbrella = true) = " +
     inferred_rain.value_at([1]).unwrap().to_string(),
   )
+  println(
+    "rain and umbrella d-separated without evidence = " +
+    network.is_d_separated(["rain"], ["umbrella"], []).unwrap().to_string(),
+  )
 }

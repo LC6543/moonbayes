@@ -15,6 +15,7 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - evidence restriction with structured validation
 - Bayesian network construction with DAG and conditional-table checks
 - exact variable elimination with deterministic minimum-fill ordering
+- ancestor, descendant and d-separation structure queries
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
@@ -60,6 +61,7 @@ let network = @moonbayes.BayesianNetwork::new(
   [rain_node, umbrella_node],
 ).unwrap()
 let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
+let d_separated = network.is_d_separated(["rain"], ["umbrella"], []).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

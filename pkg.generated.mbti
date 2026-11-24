@@ -10,7 +10,10 @@ pub const MAX_FACTOR_VALUES : Int32 = 16777216
 pub struct BayesianNetwork {
   // private fields
 }
+pub fn BayesianNetwork::ancestors_of(Self, String) -> Array[String]?
+pub fn BayesianNetwork::descendants_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
+pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
 pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
 pub fn BayesianNetwork::node_count(Self) -> Int32
@@ -54,6 +57,14 @@ pub enum FactorError {
 pub fn FactorError::equal(Self, Self) -> Bool
 pub fn FactorError::message(Self) -> String
 pub fn FactorError::not_equal(Self, Self) -> Bool
+
+pub enum GraphQueryError {
+  EmptySet
+  UnknownNode(String)
+  DuplicateSetMember(String)
+  OverlappingSets(String)
+}
+pub fn GraphQueryError::message(Self) -> String
 
 pub enum InferenceError {
   EmptyQuery
