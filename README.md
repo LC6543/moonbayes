@@ -13,11 +13,12 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - factor multiplication over shared scopes
 - marginalization by summing out variables
 - evidence restriction with structured validation
+- Bayesian network construction with DAG and conditional-table checks
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
-Bayesian network construction, exact variable elimination and sampling are
-planned next and intentionally not stubbed.
+Exact variable elimination and sampling are planned next and intentionally not
+stubbed.
 
 ## Development
 
@@ -40,10 +41,23 @@ let likelihood = @moonbayes.Factor::new(
   [rain, umbrella],
   [0.9, 0.1, 0.2, 0.8],
 ).unwrap()
+let umbrella_cpt = @moonbayes.Factor::new(
+  [umbrella, rain],
+  [0.9, 0.2, 0.1, 0.8],
+).unwrap()
 let joint = prior.multiply(likelihood).unwrap()
 let p_umbrella = joint.marginalize(["umbrella"]).unwrap()
 let observed = joint.restrict([("rain", 0)]).unwrap()
 let posterior = observed.normalize().unwrap()
+let rain_node = @moonbayes.NetworkNode::new(rain, [], prior).unwrap()
+let umbrella_node = @moonbayes.NetworkNode::new(
+  umbrella,
+  ["rain"],
+  umbrella_cpt,
+).unwrap()
+let network = @moonbayes.BayesianNetwork::new(
+  [rain_node, umbrella_node],
+).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

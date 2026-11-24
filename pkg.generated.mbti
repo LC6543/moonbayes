@@ -7,6 +7,16 @@ pub const MAX_FACTOR_VALUES : Int32 = 16777216
 // Errors
 
 // Types and methods
+pub struct BayesianNetwork {
+  // private fields
+}
+pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
+pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
+pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
+pub fn BayesianNetwork::node_count(Self) -> Int32
+pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
+pub fn BayesianNetwork::topological_order(Self) -> Array[String]
+
 pub struct Factor {
   // private fields
 }
@@ -43,6 +53,30 @@ pub enum FactorError {
 pub fn FactorError::equal(Self, Self) -> Bool
 pub fn FactorError::message(Self) -> String
 pub fn FactorError::not_equal(Self, Self) -> Bool
+
+pub enum NetworkError {
+  EmptyNetwork
+  DuplicateNode(String)
+  UnknownNode(String)
+  UnknownParent(String)
+  DuplicateParent(String)
+  SelfParent(String)
+  DistributionScopeMismatch(String)
+  DistributionChildDomainMismatch(String, Int32, Int32)
+  DistributionParentDomainMismatch(String, String, Int32, Int32)
+  UnnormalizedConditional(String, Double)
+  CycleDetected
+}
+pub fn NetworkError::message(Self) -> String
+
+pub struct NetworkNode {
+  // private fields
+}
+pub fn NetworkNode::distribution(Self) -> Factor
+pub fn NetworkNode::new(Variable, Array[String], Factor) -> Result[Self, NetworkError]
+pub fn NetworkNode::parents(Self) -> Array[String]
+pub fn NetworkNode::variable(Self) -> Variable
+pub fn NetworkNode::variable_name(Self) -> String
 
 pub struct Variable {
   // private fields
