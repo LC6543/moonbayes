@@ -17,6 +17,7 @@ fn main {
   let network = @moonbayes.BayesianNetwork::new([rain_node, umbrella_node]).unwrap()
   let umbrella_marginal = joint.marginalize(["umbrella"]).unwrap()
   let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
+  let likelihood = network.evidence_likelihood([("umbrella", 1)]).unwrap()
   let observed_rain = joint.restrict([("rain", 0)]).unwrap()
   let posterior = observed_rain.normalize().unwrap()
   println(
@@ -41,5 +42,9 @@ fn main {
   println(
     "rain and umbrella d-separated without evidence = " +
     network.is_d_separated(["rain"], ["umbrella"], []).unwrap().to_string(),
+  )
+  println(
+    "P(umbrella = true) via likelihood = " +
+    likelihood.probability().to_string(),
   )
 }

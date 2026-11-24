@@ -58,28 +58,14 @@ pub fn BayesianNetwork::query(
     }
     position += 1
   }
-  position = 0
-  while position < evidence.length() {
-    let (name, value) = evidence[position]
-    let node = match find_network_node(self.nodes, name) {
-      Some(node) => node
-      None => return Err(UnknownVariable(name))
+  match validate_network_evidence(self, evidence) {
+    Ok(_) => ()
+    Err(error) => return Err(error)
+  }
+  for entry in evidence {
+    if contains_name(targets, entry.0) {
+      return Err(TargetIsEvidence(entry.0))
     }
-    let mut previous = 0
-    while previous < position {
-      if evidence[previous].0 == name {
-        return Err(DuplicateEvidence(name))
-      }
-      previous += 1
-    }
-    let size = node.variable().size()
-    if value < 0 || value >= size {
-      return Err(EvidenceOutOfRange(name, value, size))
-    }
-    if contains_name(targets, name) {
-      return Err(TargetIsEvidence(name))
-    }
-    position += 1
   }
   let mut factors : Array[Factor] = []
   for node in self.nodes {
@@ -157,6 +143,34 @@ pub fn BayesianNetwork::query(
     Ok(factor) => Ok(factor)
     Err(error) => Err(FactorFailure(error))
   }
+}
+
+///|
+fn validate_network_evidence(
+  network : BayesianNetwork,
+  evidence : Array[(String, Int32)],
+) -> Result[Unit, InferenceError] {
+  let mut position = 0
+  while position < evidence.length() {
+    let (name, value) = evidence[position]
+    let node = match find_network_node(network.nodes, name) {
+      Some(node) => node
+      None => return Err(UnknownVariable(name))
+    }
+    let mut previous = 0
+    while previous < position {
+      if evidence[previous].0 == name {
+        return Err(DuplicateEvidence(name))
+      }
+      previous += 1
+    }
+    let size = node.variable().size()
+    if value < 0 || value >= size {
+      return Err(EvidenceOutOfRange(name, value, size))
+    }
+    position += 1
+  }
+  Ok(())
 }
 
 ///|

@@ -13,6 +13,7 @@ pub struct BayesianNetwork {
 pub fn BayesianNetwork::ancestors_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::descendants_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::distribution_of(Self, String) -> Result[Factor, NetworkError]
+pub fn BayesianNetwork::evidence_likelihood(Self, Array[(String, Int32)]) -> Result[EvidenceLikelihood, InferenceError]
 pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
 pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
@@ -20,6 +21,12 @@ pub fn BayesianNetwork::node_count(Self) -> Int32
 pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::query(Self, Array[String], Array[(String, Int32)]) -> Result[Factor, InferenceError]
 pub fn BayesianNetwork::topological_order(Self) -> Array[String]
+
+pub struct EvidenceLikelihood {
+  // private fields
+}
+pub fn EvidenceLikelihood::log_probability(Self) -> Double
+pub fn EvidenceLikelihood::probability(Self) -> Double
 
 pub struct Factor {
   // private fields
