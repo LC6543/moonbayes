@@ -1,0 +1,57 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "LC6543/moonbayes"
+
+// Values
+pub const MAX_FACTOR_VALUES : Int32 = 16777216
+
+// Errors
+
+// Types and methods
+pub struct Factor {
+  // private fields
+}
+pub fn Factor::assignment_at(Self, Int32) -> Result[Array[Int32], FactorError]
+pub fn Factor::index_of(Self, Array[Int32]) -> Result[Int32, FactorError]
+pub fn Factor::marginalize(Self, Array[String]) -> Result[Self, FactorError]
+pub fn Factor::multiply(Self, Self) -> Result[Self, FactorError]
+pub fn Factor::new(Array[Variable], Array[Double]) -> Result[Self, FactorError]
+pub fn Factor::normalize(Self) -> Result[Self, FactorError]
+pub fn Factor::scope(Self) -> Array[Variable]
+pub fn Factor::total(Self) -> Double
+pub fn Factor::value_at(Self, Array[Int32]) -> Result[Double, FactorError]
+pub fn Factor::value_count(Self) -> Int32
+pub fn Factor::values(Self) -> Array[Double]
+pub fn Factor::variable_count(Self) -> Int32
+pub fn Factor::variable_names(Self) -> Array[String]
+
+pub enum FactorError {
+  EmptyVariableName
+  InvalidDomainSize(Int32)
+  DuplicateVariable(String)
+  UnknownVariable(String)
+  IncompatibleVariable(String, Int32, Int32)
+  AssignmentLengthMismatch(Int32, Int32)
+  AssignmentOutOfRange(Int32, Int32, Int32)
+  IndexOutOfBounds(Int32, Int32)
+  ValueCountMismatch(Int32, Int32)
+  NegativeValue(Int32)
+  NonFiniteValue(Int32)
+  ZeroMass
+  TableTooLarge(Int32)
+} derive(Eq)
+pub fn FactorError::equal(Self, Self) -> Bool
+pub fn FactorError::message(Self) -> String
+pub fn FactorError::not_equal(Self, Self) -> Bool
+
+pub struct Variable {
+  // private fields
+} derive(Eq)
+pub fn Variable::equal(Self, Self) -> Bool
+pub fn Variable::name(Self) -> String
+pub fn Variable::new(String, Int32) -> Result[Self, FactorError]
+pub fn Variable::not_equal(Self, Self) -> Bool
+pub fn Variable::size(Self) -> Int32
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,5 @@
+import {
+  "LC6543/moonbayes",
+}
+
+pkgtype(kind: "executable")
