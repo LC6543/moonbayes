@@ -12,11 +12,12 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - table validation with explicit errors
 - factor multiplication over shared scopes
 - marginalization by summing out variables
+- evidence restriction with structured validation
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
-Bayesian network construction, evidence restriction, exact variable
-elimination and sampling are planned next and intentionally not stubbed.
+Bayesian network construction, exact variable elimination and sampling are
+planned next and intentionally not stubbed.
 
 ## Development
 
@@ -41,6 +42,8 @@ let likelihood = @moonbayes.Factor::new(
 ).unwrap()
 let joint = prior.multiply(likelihood).unwrap()
 let p_umbrella = joint.marginalize(["umbrella"]).unwrap()
+let observed = joint.restrict([("rain", 0)]).unwrap()
+let posterior = observed.normalize().unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

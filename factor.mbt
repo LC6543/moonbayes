@@ -339,6 +339,69 @@ pub fn Factor::marginalize(
 }
 
 ///|
+/// Restricts the factor to assignments for a set of evidence variables.
+///
+/// Variables listed in `evidence` are removed from the result scope. The
+/// remaining variables preserve their original order. An empty evidence list
+/// returns an equivalent factor, while evidence covering the entire scope
+/// produces a scalar factor.
+pub fn Factor::restrict(
+  self : Factor,
+  evidence : Array[(String, Int32)],
+) -> Result[Factor, FactorError] {
+  let fixed_values = Array::make(self.variables.length(), -1)
+  for entry in evidence {
+    let (name, value) = entry
+    let position = find_variable_position(self.variables, name)
+    if position < 0 {
+      return Err(UnknownVariable(name))
+    }
+    if fixed_values[position] >= 0 {
+      return Err(DuplicateVariable(name))
+    }
+    let size = self.variables[position].size()
+    if value < 0 || value >= size {
+      return Err(AssignmentOutOfRange(position, value, size))
+    }
+    fixed_values[position] = value
+  }
+  let remaining_variables : Array[Variable] = []
+  let source_to_result = Array::make(self.variables.length(), -1)
+  let mut position = 0
+  while position < self.variables.length() {
+    if fixed_values[position] < 0 {
+      source_to_result[position] = remaining_variables.length()
+      remaining_variables.push(self.variables[position])
+    }
+    position += 1
+  }
+  let result_count = match factor_table_size(remaining_variables) {
+    Ok(size) => size
+    Err(error) => return Err(error)
+  }
+  let result_values = Array::make(result_count, 0.0)
+  let mut index = 0
+  while index < result_count {
+    let result_assignment = index_to_assignment(remaining_variables, index)
+    let source_assignment = Array::make(self.variables.length(), 0)
+    let mut source_position = 0
+    while source_position < self.variables.length() {
+      if fixed_values[source_position] >= 0 {
+        source_assignment[source_position] = fixed_values[source_position]
+      } else {
+        let result_position = source_to_result[source_position]
+        source_assignment[source_position] = result_assignment[result_position]
+      }
+      source_position += 1
+    }
+    let source_index = assignment_to_index(self.variables, source_assignment)
+    result_values[index] = self.values[source_index]
+    index += 1
+  }
+  Factor::new(remaining_variables, result_values)
+}
+
+///|
 fn factor_table_size(variables : Array[Variable]) -> Result[Int32, FactorError] {
   let mut total = 1
   let mut position = 0

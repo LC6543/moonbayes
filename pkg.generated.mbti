@@ -16,6 +16,7 @@ pub fn Factor::marginalize(Self, Array[String]) -> Result[Self, FactorError]
 pub fn Factor::multiply(Self, Self) -> Result[Self, FactorError]
 pub fn Factor::new(Array[Variable], Array[Double]) -> Result[Self, FactorError]
 pub fn Factor::normalize(Self) -> Result[Self, FactorError]
+pub fn Factor::restrict(Self, Array[(String, Int32)]) -> Result[Self, FactorError]
 pub fn Factor::scope(Self) -> Array[Variable]
 pub fn Factor::total(Self) -> Double
 pub fn Factor::value_at(Self, Array[Int32]) -> Result[Double, FactorError]

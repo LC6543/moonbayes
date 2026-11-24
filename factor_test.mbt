@@ -143,6 +143,52 @@ test "multiply supports disjoint scopes" {
 }
 
 ///|
+test "restrict fixes evidence and preserves remaining scope" {
+  let rain = @moonbayes.Variable::new("rain", 2).unwrap()
+  let umbrella = @moonbayes.Variable::new("umbrella", 2).unwrap()
+  let joint = @moonbayes.Factor::new([rain, umbrella], [0.72, 0.08, 0.04, 0.16]).unwrap()
+  let observed_rain = joint.restrict([("rain", 0)]).unwrap()
+  assert_eq(observed_rain.variable_names(), ["umbrella"])
+  assert_values(observed_rain, [0.72, 0.08])
+  assert_values(observed_rain.normalize().unwrap(), [0.9, 0.1])
+  let observed_umbrella = joint.restrict([("umbrella", 1)]).unwrap()
+  assert_eq(observed_umbrella.variable_names(), ["rain"])
+  assert_values(observed_umbrella, [0.08, 0.16])
+}
+
+///|
+test "restrict supports empty and complete evidence" {
+  let rain = @moonbayes.Variable::new("rain", 2).unwrap()
+  let umbrella = @moonbayes.Variable::new("umbrella", 2).unwrap()
+  let joint = @moonbayes.Factor::new([rain, umbrella], [0.72, 0.08, 0.04, 0.16]).unwrap()
+  let unchanged = joint.restrict([]).unwrap()
+  assert_eq(unchanged.variable_names(), ["rain", "umbrella"])
+  assert_values(unchanged, [0.72, 0.08, 0.04, 0.16])
+  let fully_observed = joint.restrict([("rain", 1), ("umbrella", 0)]).unwrap()
+  assert_eq(fully_observed.variable_count(), 0)
+  assert_values(fully_observed, [0.04])
+}
+
+///|
+test "restrict validates evidence" {
+  let rain = @moonbayes.Variable::new("rain", 2).unwrap()
+  let umbrella = @moonbayes.Variable::new("umbrella", 2).unwrap()
+  let joint = @moonbayes.Factor::new([rain, umbrella], [0.72, 0.08, 0.04, 0.16]).unwrap()
+  match joint.restrict([("missing", 0)]) {
+    Err(UnknownVariable("missing")) => ()
+    _ => assert_true(false)
+  }
+  match joint.restrict([("rain", 0), ("rain", 1)]) {
+    Err(DuplicateVariable("rain")) => ()
+    _ => assert_true(false)
+  }
+  match joint.restrict([("rain", 2)]) {
+    Err(AssignmentOutOfRange(0, 2, 2)) => ()
+    _ => assert_true(false)
+  }
+}
+
+///|
 test "marginalize removes selected variables" {
   let rain = @moonbayes.Variable::new("rain", 2).unwrap()
   let umbrella = @moonbayes.Variable::new("umbrella", 2).unwrap()

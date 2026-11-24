@@ -6,6 +6,8 @@ fn main {
   let likelihood = @moonbayes.Factor::new([rain, umbrella], [0.9, 0.1, 0.2, 0.8]).unwrap()
   let joint = prior.multiply(likelihood).unwrap()
   let umbrella_marginal = joint.marginalize(["umbrella"]).unwrap()
+  let observed_rain = joint.restrict([("rain", 0)]).unwrap()
+  let posterior = observed_rain.normalize().unwrap()
   println(
     "P(umbrella = false) = " +
     umbrella_marginal.value_at([0]).unwrap().to_string(),
@@ -13,5 +15,9 @@ fn main {
   println(
     "P(umbrella = true) = " +
     umbrella_marginal.value_at([1]).unwrap().to_string(),
+  )
+  println(
+    "P(umbrella = true | rain = false) = " +
+    posterior.value_at([1]).unwrap().to_string(),
   )
 }
