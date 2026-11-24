@@ -29,6 +29,7 @@ fn usage() -> String {
     #|  moonbayes query <model.json> --target <name> [--target <name> ...] [--evidence <name=value> ...]
     #|  moonbayes likelihood <model.json> [--evidence <name=value> ...]
     #|  moonbayes map <model.json> --target <name> [--target <name> ...] [--evidence <name=value> ...]
+    #|  moonbayes plan <model.json> --target <name> [--target <name> ...] [--evidence <name=value> ...]
   )
 }
 
@@ -181,6 +182,31 @@ fn run_command(args : Array[String]) -> Unit raise CliError {
       println("assignment: " + format_assignment(names, values))
       println("probability: " + result.probability().to_string())
       println("log_probability: " + result.log_probability().to_string())
+    }
+    "plan" => {
+      let plan = match
+        network.inference_plan(options.targets, options.evidence) {
+        Ok(plan) => plan
+        Err(error) => raise Usage(error.message())
+      }
+      println("elimination_order: " + plan.elimination_order().join(", "))
+      println("max_bucket_size: " + plan.max_bucket_size().to_string())
+      println("result_entries: " + plan.result_entries().to_string())
+      let mut index = 0
+      while index < plan.bucket_count() {
+        let bucket = plan.bucket(index).unwrap()
+        println(
+          "bucket " +
+          index.to_string() +
+          ": variable=" +
+          bucket.variable() +
+          ", variables=" +
+          bucket.variables().join(",") +
+          ", entries=" +
+          bucket.estimated_entries().to_string(),
+        )
+        index += 1
+      }
     }
     _ => raise Usage("unknown command: " + command)
   }

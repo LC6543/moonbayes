@@ -48,6 +48,7 @@ moon run cmd/moonbayes --target wasm-gc -- validate examples/rain-umbrella.json
 moon run cmd/moonbayes --target wasm-gc -- query examples/rain-umbrella.json --target rain --evidence umbrella=1
 moon run cmd/moonbayes --target wasm-gc -- likelihood examples/rain-umbrella.json --evidence umbrella=1
 moon run cmd/moonbayes --target wasm-gc -- map examples/rain-umbrella.json --target rain --evidence umbrella=1
+moon run cmd/moonbayes --target wasm-gc -- plan examples/rain-umbrella.json --target rain --evidence umbrella=1
 ```
 
 ## Example

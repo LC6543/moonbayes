@@ -21,6 +21,7 @@ pub fn BayesianNetwork::evidence_likelihood(Self, Array[(String, Int32)]) -> Res
 pub fn BayesianNetwork::fit_complete_data(Self, Array[Array[(String, Int32)]], Double) -> Result[Self, FitFailure]
 pub fn BayesianNetwork::from_json(Json) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::from_json_string(String) -> Result[Self, NetworkError]
+pub fn BayesianNetwork::inference_plan(Self, Array[String], Array[(String, Int32)]) -> Result[InferencePlan, InferenceError]
 pub fn BayesianNetwork::is_d_separated(Self, Array[String], Array[String], Array[String]) -> Result[Bool, GraphQueryError]
 pub fn BayesianNetwork::map(Self, Array[String], Array[(String, Int32)]) -> Result[MapAssignment, InferenceError]
 pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
@@ -98,6 +99,13 @@ pub enum GraphQueryError {
 }
 pub fn GraphQueryError::message(Self) -> String
 
+pub struct InferenceBucket {
+  // private fields
+}
+pub fn InferenceBucket::estimated_entries(Self) -> Int32
+pub fn InferenceBucket::variable(Self) -> String
+pub fn InferenceBucket::variables(Self) -> Array[String]
+
 pub enum InferenceError {
   EmptyQuery
   UnknownVariable(String)
@@ -108,6 +116,15 @@ pub enum InferenceError {
   FactorFailure(FactorError)
 }
 pub fn InferenceError::message(Self) -> String
+
+pub struct InferencePlan {
+  // private fields
+}
+pub fn InferencePlan::bucket(Self, Int32) -> InferenceBucket?
+pub fn InferencePlan::bucket_count(Self) -> Int32
+pub fn InferencePlan::elimination_order(Self) -> Array[String]
+pub fn InferencePlan::max_bucket_size(Self) -> Int32
+pub fn InferencePlan::result_entries(Self) -> Int32
 
 pub struct MapAssignment {
   // private fields

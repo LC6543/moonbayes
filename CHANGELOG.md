@@ -16,5 +16,6 @@
 - add versioned JSON model import and export
 - add a command-line tool for validation, queries, likelihood, MAP and export
 - add complete-data CPT fitting with configurable smoothing
+- add deterministic inference plans with bucket-size diagnostics
 - add structured errors and table-size bounds
 - add focused factor tests and a runnable example
