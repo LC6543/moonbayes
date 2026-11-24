@@ -4,6 +4,8 @@ package "LC6543/moonbayes"
 // Values
 pub const MAX_FACTOR_VALUES : Int32 = 16777216
 
+pub const MAX_SAMPLES : Int32 = 1000000
+
 // Errors
 
 // Types and methods
@@ -20,6 +22,7 @@ pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
 pub fn BayesianNetwork::node_count(Self) -> Int32
 pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
 pub fn BayesianNetwork::query(Self, Array[String], Array[(String, Int32)]) -> Result[Factor, InferenceError]
+pub fn BayesianNetwork::sample_posterior(Self, Array[String], Array[(String, Int32)], SamplingConfig) -> Result[WeightedPosterior, SamplingFailure]
 pub fn BayesianNetwork::topological_order(Self) -> Array[String]
 
 pub struct EvidenceLikelihood {
@@ -108,6 +111,27 @@ pub fn NetworkNode::parents(Self) -> Array[String]
 pub fn NetworkNode::variable(Self) -> Variable
 pub fn NetworkNode::variable_name(Self) -> String
 
+pub struct SamplingConfig {
+  // private fields
+}
+pub fn SamplingConfig::new(Int32, UInt64) -> Result[Self, SamplingFailure]
+pub fn SamplingConfig::samples(Self) -> Int32
+pub fn SamplingConfig::seed(Self) -> UInt64
+
+pub enum SamplingFailure {
+  InvalidSampleCount(Int32)
+  SampleCountTooLarge(Int32)
+  EmptyTargets
+  UnknownVariable(String)
+  DuplicateTarget(String)
+  DuplicateEvidence(String)
+  TargetIsEvidence(String)
+  EvidenceOutOfRange(String, Int32, Int32)
+  FactorFailure(FactorError)
+  ZeroWeight
+}
+pub fn SamplingFailure::message(Self) -> String
+
 pub struct Variable {
   // private fields
 } derive(Eq)
@@ -116,6 +140,12 @@ pub fn Variable::name(Self) -> String
 pub fn Variable::new(String, Int32) -> Result[Self, FactorError]
 pub fn Variable::not_equal(Self, Self) -> Bool
 pub fn Variable::size(Self) -> Int32
+
+pub struct WeightedPosterior {
+  // private fields
+}
+pub fn WeightedPosterior::effective_sample_size(Self) -> Double
+pub fn WeightedPosterior::estimate(Self) -> Factor
 
 // Type aliases
 

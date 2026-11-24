@@ -17,6 +17,7 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - exact variable elimination with deterministic minimum-fill ordering
 - ancestor, descendant and d-separation structure queries
 - evidence likelihood with scaled log-probability accumulation
+- deterministic likelihood-weighting posterior sampling
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
@@ -64,6 +65,12 @@ let network = @moonbayes.BayesianNetwork::new(
 let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
 let d_separated = network.is_d_separated(["rain"], ["umbrella"], []).unwrap()
 let likelihood = network.evidence_likelihood([("umbrella", 1)]).unwrap()
+let sampling_config = @moonbayes.SamplingConfig::new(10000, 42UL).unwrap()
+let sampled = network.sample_posterior(
+  ["rain"],
+  [("umbrella", 1)],
+  sampling_config,
+).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

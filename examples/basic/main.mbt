@@ -18,6 +18,10 @@ fn main {
   let umbrella_marginal = joint.marginalize(["umbrella"]).unwrap()
   let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
   let likelihood = network.evidence_likelihood([("umbrella", 1)]).unwrap()
+  let sampling_config = @moonbayes.SamplingConfig::new(4000, 20261125UL).unwrap()
+  let sampled_rain = network
+    .sample_posterior(["rain"], [("umbrella", 1)], sampling_config)
+    .unwrap()
   let observed_rain = joint.restrict([("rain", 0)]).unwrap()
   let posterior = observed_rain.normalize().unwrap()
   println(
@@ -46,5 +50,9 @@ fn main {
   println(
     "P(umbrella = true) via likelihood = " +
     likelihood.probability().to_string(),
+  )
+  println(
+    "Sampled P(rain = true | umbrella = true) = " +
+    sampled_rain.estimate().value_at([1]).unwrap().to_string(),
   )
 }
