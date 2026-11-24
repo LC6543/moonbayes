@@ -15,6 +15,7 @@ pub fn BayesianNetwork::new(Array[NetworkNode]) -> Result[Self, NetworkError]
 pub fn BayesianNetwork::node(Self, String) -> NetworkNode?
 pub fn BayesianNetwork::node_count(Self) -> Int32
 pub fn BayesianNetwork::parents_of(Self, String) -> Array[String]?
+pub fn BayesianNetwork::query(Self, Array[String], Array[(String, Int32)]) -> Result[Factor, InferenceError]
 pub fn BayesianNetwork::topological_order(Self) -> Array[String]
 
 pub struct Factor {
@@ -53,6 +54,17 @@ pub enum FactorError {
 pub fn FactorError::equal(Self, Self) -> Bool
 pub fn FactorError::message(Self) -> String
 pub fn FactorError::not_equal(Self, Self) -> Bool
+
+pub enum InferenceError {
+  EmptyQuery
+  UnknownVariable(String)
+  DuplicateTarget(String)
+  DuplicateEvidence(String)
+  TargetIsEvidence(String)
+  EvidenceOutOfRange(String, Int32, Int32)
+  FactorFailure(FactorError)
+}
+pub fn InferenceError::message(Self) -> String
 
 pub enum NetworkError {
   EmptyNetwork

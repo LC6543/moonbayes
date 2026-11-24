@@ -16,6 +16,7 @@ fn main {
   ).unwrap()
   let network = @moonbayes.BayesianNetwork::new([rain_node, umbrella_node]).unwrap()
   let umbrella_marginal = joint.marginalize(["umbrella"]).unwrap()
+  let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
   let observed_rain = joint.restrict([("rain", 0)]).unwrap()
   let posterior = observed_rain.normalize().unwrap()
   println(
@@ -33,4 +34,8 @@ fn main {
   let order = network.topological_order()
   println("Topological root = " + order[0])
   println("Topological child = " + order[1])
+  println(
+    "Inferred P(rain = true | umbrella = true) = " +
+    inferred_rain.value_at([1]).unwrap().to_string(),
+  )
 }

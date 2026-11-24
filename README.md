@@ -14,10 +14,11 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - marginalization by summing out variables
 - evidence restriction with structured validation
 - Bayesian network construction with DAG and conditional-table checks
+- exact variable elimination with deterministic minimum-fill ordering
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
-Exact variable elimination and sampling are planned next and intentionally not
+Sampling and approximate inference are planned next and intentionally not
 stubbed.
 
 ## Development
@@ -58,6 +59,7 @@ let umbrella_node = @moonbayes.NetworkNode::new(
 let network = @moonbayes.BayesianNetwork::new(
   [rain_node, umbrella_node],
 ).unwrap()
+let inferred_rain = network.query(["rain"], [("umbrella", 1)]).unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,
