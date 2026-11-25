@@ -22,6 +22,7 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - MAP and MPE assignments from exact posterior maximization
 - versioned JSON model import and export with validation
 - complete-data CPT fitting with configurable smoothing
+- immutable CPT replacement and variable renaming
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
@@ -97,6 +98,7 @@ let fitted = network.fit_complete_data(
   ],
   1.0,
 ).unwrap()
+let edited = network.rename_variable("rain", "weather").unwrap()
 ```
 
 The last variable changes fastest. For a factor over `rain(2), umbrella(2)`,

@@ -17,6 +17,7 @@ pub enum NetworkError {
   UnsupportedFormatVersion(Int32)
   InvalidField(String)
   FactorFailure(FactorError)
+  DuplicateReplacement(String)
 }
 
 ///|
@@ -60,6 +61,8 @@ pub fn NetworkError::message(self : NetworkError) -> String {
       "unsupported moonbayes format version: " + version.to_string()
     InvalidField(path) => "invalid or missing model field: " + path
     FactorFailure(error) => error.message()
+    DuplicateReplacement(name) =>
+      "distribution replacement appears more than once: " + name
   }
 }
 
