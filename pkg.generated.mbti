@@ -76,10 +76,11 @@ pub enum FactorError {
   NonFiniteValue(Int32)
   ZeroMass
   TableTooLarge(Int32)
-} derive(Eq)
+}
 pub fn FactorError::equal(Self, Self) -> Bool
 pub fn FactorError::message(Self) -> String
 pub fn FactorError::not_equal(Self, Self) -> Bool
+pub impl Eq for FactorError
 
 pub enum FitFailure {
   EmptyData
@@ -195,12 +196,13 @@ pub fn SamplingFailure::message(Self) -> String
 
 pub struct Variable {
   // private fields
-} derive(Eq)
+}
 pub fn Variable::equal(Self, Self) -> Bool
 pub fn Variable::name(Self) -> String
 pub fn Variable::new(String, Int32) -> Result[Self, FactorError]
 pub fn Variable::not_equal(Self, Self) -> Bool
 pub fn Variable::size(Self) -> Int32
+pub impl Eq for Variable
 
 pub struct WeightedPosterior {
   // private fields

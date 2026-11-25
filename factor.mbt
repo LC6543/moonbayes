@@ -10,7 +10,12 @@ pub const MAX_FACTOR_VALUES : Int32 = 16777216
 pub struct Variable {
   priv name : String
   priv size : Int32
-} derive(Eq)
+}
+
+///|
+pub impl Eq for Variable with fn equal(self : Variable, other : Variable) -> Bool {
+  self.name == other.name && self.size == other.size
+}
 
 ///|
 pub extend Variable with Eq::{equal, not_equal}
@@ -58,7 +63,49 @@ pub enum FactorError {
   NonFiniteValue(Int32)
   ZeroMass
   TableTooLarge(Int32)
-} derive(Eq)
+}
+
+///|
+pub impl Eq for FactorError with fn equal(
+  self : FactorError,
+  other : FactorError,
+) -> Bool {
+  match (self, other) {
+    (EmptyVariableName, EmptyVariableName) => true
+    (InvalidDomainSize(left), InvalidDomainSize(right)) => left == right
+    (DuplicateVariable(left), DuplicateVariable(right)) => left == right
+    (UnknownVariable(left), UnknownVariable(right)) => left == right
+    (
+      IncompatibleVariable(left_name, left_size, left_right_size),
+      IncompatibleVariable(right_name, right_size, right_right_size),
+    ) =>
+      left_name == right_name &&
+      left_size == right_size &&
+      left_right_size == right_right_size
+    (
+      AssignmentLengthMismatch(left, right),
+      AssignmentLengthMismatch(other_left, other_right),
+    ) => left == other_left && right == other_right
+    (
+      AssignmentOutOfRange(left_position, left_value, left_size),
+      AssignmentOutOfRange(right_position, right_value, right_size),
+    ) =>
+      left_position == right_position &&
+      left_value == right_value &&
+      left_size == right_size
+    (IndexOutOfBounds(left, right), IndexOutOfBounds(other_left, other_right)) =>
+      left == other_left && right == other_right
+    (
+      ValueCountMismatch(left, right),
+      ValueCountMismatch(other_left, other_right),
+    ) => left == other_left && right == other_right
+    (NegativeValue(left), NegativeValue(right)) => left == right
+    (NonFiniteValue(left), NonFiniteValue(right)) => left == right
+    (ZeroMass, ZeroMass) => true
+    (TableTooLarge(left), TableTooLarge(right)) => left == right
+    _ => false
+  }
+}
 
 ///|
 pub extend FactorError with Eq::{equal, not_equal}
