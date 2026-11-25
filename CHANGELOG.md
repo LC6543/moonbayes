@@ -18,5 +18,6 @@
 - add complete-data CPT fitting with configurable smoothing
 - add deterministic inference plans with bucket-size diagnostics
 - add immutable CPT replacement and variable renaming
+- add end-to-end acceptance example, compatibility notes and release checklist
 - add structured errors and table-size bounds
 - add focused factor tests and a runnable example

@@ -31,6 +31,9 @@ jobs:
       - name: Run example
         run: moon run examples/basic
 
+      - name: Run end-to-end acceptance
+        run: moon run examples/acceptance
+
       - name: Run CLI
         run: moon run cmd/moonbayes --target wasm-gc -- validate examples/rain-umbrella.json
 

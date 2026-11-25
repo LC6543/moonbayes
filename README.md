@@ -4,8 +4,7 @@
 focuses on deterministic, bounded, I/O-free inference primitives that work on
 the native, JavaScript and WebAssembly backends.
 
-The first increment implements dense factor tables. A factor is an ordered
-scope plus a table of finite non-negative weights. The implementation provides:
+The implementation provides:
 
 - validated finite discrete variables
 - row-major assignment and index conversion
@@ -23,10 +22,12 @@ scope plus a table of finite non-negative weights. The implementation provides:
 - versioned JSON model import and export with validation
 - complete-data CPT fitting with configurable smoothing
 - immutable CPT replacement and variable renaming
+- deterministic inference plans with bucket-size diagnostics
 - normalization and total-mass checks
 - a hard table-size limit to reject malformed models early
 
-Model editing and richer diagnostics are planned next.
+See [compatibility](docs/compatibility.md) and [use cases](docs/use-cases.md)
+for supported behavior and practical applications.
 
 ## Development
 
@@ -37,11 +38,12 @@ moon check --target all --deny-warn
 moon build --target all --deny-warn
 moon test --target all --deny-warn
 moon run examples/basic
+moon run examples/acceptance
 ```
 
 ## Command Line
 
-Build and run the native command-line tool with:
+Run the command-line tool with:
 
 ```sh
 moon run cmd/moonbayes --target wasm-gc -- --help
